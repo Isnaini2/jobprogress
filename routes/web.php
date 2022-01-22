@@ -23,8 +23,9 @@ Route::get('/', function () {
 });
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
+Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
 
 // Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function(){
 //     Route::post('/login', 'App\Http\Controllers\pelindoController@loginpost')->middleware('isAdmin');
@@ -58,7 +59,7 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login');
 //Pilihan Admin
 Route::get('/divisi', function () {
     return view('admin.halamanutama');
-});
+})->middleware('manager');
 
 // View pkm dan job Admin
 Route::get('/sdm', function () {
@@ -169,31 +170,39 @@ Route::get('/delete-pkmkeuangan/{id}', 'App\Http\Controllers\pelindoController@d
 
 //------------------------------PUNYA USER--------------------------------------------------------
 // View pkm dan job
-Route::get('/usrsdm', function () {
-    return view('pengguna.sdm');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/usrsdm', function () {
+        return view('pengguna.sdm');
+    })->middleware('sdm');
+
+    Route::get('/usrumum', function () {
+        return view('pengguna.umum');
+    })->middleware('umu');
+
+    Route::get('/usrit', function () {
+        return view('pengguna.it');
+    })->middleware('it');
+
+    Route::get('/usrpelkap', function () {
+        return view('pengguna.pelkap');
+    })->middleware('pelkap');
+
+    Route::get('/usrpbau', function () {
+        return view('pengguna.pbau');
+    })->middleware('pbau');
+
+    Route::get('/usrtpb', function () {
+        return view('pengguna.tpb');
+    })->middleware('tpb');
+
+    Route::get('/usrkeuangan', function () {
+        return view('pengguna.keuangan');
+    })->middleware('keuangan');
 });
 
-Route::get('/usrumum', function () {
-    return view('pengguna.umum');
-});
 
-Route::get('/usrit', function () {
-    return view('pengguna.it');
-});
-Route::get('/usrpelkap', function () {
-    return view('pengguna.pelkap');
-});
-Route::get('/usrpbau', function () {
-    return view('pengguna.pbau');
-});
-
-Route::get('/usrtpb', function () {
-    return view('pengguna.tpb');
-});
-
-Route::get('/usrkeuangan', function () {
-    return view('pengguna.keuangan');
-});
 
 // View PKM USER
 
@@ -234,6 +243,9 @@ Route::POST('/update-userpbau', 'App\Http\Controllers\pelindoController@updatepe
 Route::POST('/update-usertpb', 'App\Http\Controllers\pelindoController@updatepenggunatpb');
 Route::POST('/update-userpelkap', 'App\Http\Controllers\pelindoController@updatepenggunapelkap');
 Route::POST('/update-userkeuangan', 'App\Http\Controllers\pelindoController@updatepenggunakeuangan');
+
+//update-status-userit
+Route::POST('/update-status-userit', 'App\Http\Controllers\pelindoController@updatestatuspenggunait');
 
 
 //Delete-Action JOB PENGGUNA

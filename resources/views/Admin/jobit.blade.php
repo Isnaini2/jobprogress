@@ -173,25 +173,25 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>User</label>
-                        <input type="text" name="User_IT" value="{{ $it ->User_IT }}" class="form-control">
+                        <input type="text" name="User_IT" value="{{ $it ->User_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>To Do</label>
-                        <input type="text" name="To_Do_IT" value="{{ $it ->To_Do_IT }}" class="form-control">
+                        <input type="text" name="To_Do_IT" value="{{ $it ->To_Do_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Progress</label>
-                        <input type="text" name="Progress_IT" value="{{ $it ->Progress_IT }}" class="form-control">
+                        <input type="text" name="Progress_IT" value="{{ $it ->Progress_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_IT" value="{{ $it ->Done_IT }}" class="form-control">
+                        <input type="text" name="Done_IT" value="{{ $it ->Done_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
 

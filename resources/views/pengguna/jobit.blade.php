@@ -11,6 +11,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href=
+"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity=
+"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+        crossorigin="anonymous">
+  
+    <script src=
+        "https://code.jquery.com/jquery.min.js">
+    </script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
 </head>
 
 <body>
@@ -82,7 +97,10 @@
                 <td>{{$it->User_IT}}</td>
                 <td>{{$it->To_Do_IT}}</td>
                 <td>{{$it->Progress_IT}}</td>
-                <td>{{$it->Done_IT}}</td>
+                <td>
+                    <input type="checkbox" id="toggle-{{ $it->id }}" data-offstyle="danger" @if($it->Done_IT == "selesai") checked @endif>
+                    {{-- {{$it->Done_IT}} --}}
+                </td>
                 <td>{{$it->KomentarManager_IT}}</td>
                 <td>{{$it->KomentarAsistenManajer_IT}}</td>
             <td>
@@ -132,19 +150,23 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_IT" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_IT" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        {{-- <input type="text" name="Done_IT" class="form-control" required> --}}
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_IT" class="form-control" required>
+                        <input type="text" name="KomentarManager_IT" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_IT" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_IT" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -191,19 +213,23 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_IT" value="{{ $it ->Done_IT }}" class="form-control">
+                        <select class="form-select" aria-label="Default select example" name="Done_IT" required>
+                            <option value="belum" @if($it->Done_IT == "belum") selected @endif>Belum</option>
+                            <option value="selesai" @if($it->Done_IT == "selesai") selected @endif>Selesai</option>
+                        </select>
+                        {{-- <input type="text" name="Done_IT" value="{{ $it ->Done_IT }}" class="form-control"> --}}
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_IT" value="{{ $it ->KomentarManager_IT }}" class="form-control">
+                        <input type="text" name="KomentarManager_IT" value="{{ $it ->KomentarManager_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_IT" value="{{ $it ->KomentarAsistenManajer_IT }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_IT" value="{{ $it ->KomentarAsistenManajer_IT }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $it ->id }}">
                     </div>
                     </div>
@@ -258,6 +284,37 @@
         });
     </script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    
+  
+    <script>
+        $(function() {
+            @foreach ($penggunait as $it)
+            $('#toggle-{{ $it->id }}').bootstrapToggle({
+                on:'Selesai',
+                off:'Belum'
+            });
+
+            $('#toggle-{{ $it->id }}').change(function() {
+                var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+                $.ajax({
+                    url: '/update-status-userit',
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id': {{ $it->id }},
+                        'Done_IT': status
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            @endforeach
+        })
+    </script>
+
 </body>
 
 </html>

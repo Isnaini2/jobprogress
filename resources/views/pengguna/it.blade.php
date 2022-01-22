@@ -24,7 +24,8 @@
   </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <form action="/login"><button type="submit" class="rounded-pill btn-rounded border-primary">Logout
+                    <form action="/logout">
+                        <button type="submit" class="rounded-pill btn-rounded border-primary">Logout
                         <span>
                             <center><i class="fas fa-sign-out-alt"></i></center>
                         </span>

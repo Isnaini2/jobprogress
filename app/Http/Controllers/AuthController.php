@@ -26,12 +26,18 @@ class AuthController extends Controller
             } else if ($role == 'pelkap') {
                 return redirect('/usrpelkap');
             } else if ($role == 'manager') {
-                return redirect('/usrmanager');
+                return redirect('/divisi');
             } else if ($role == 'asistenmanager') {
-                return redirect('/usrasistenmanager');
+                return redirect('/divisi');
             }
         } else {
             return back();
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

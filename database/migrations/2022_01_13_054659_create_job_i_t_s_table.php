@@ -19,8 +19,8 @@ class CreateJobITSTable extends Migration
             $table->string('To_Do_IT');
             $table->string('Progress_IT');
             $table->string('Done_IT');
-            $table->string('KomentarManager_IT');
-            $table->string('KomentarAsistenManajer_IT');
+            $table->string('KomentarManager_IT')->nullable();
+            $table->string('KomentarAsistenManajer_IT')->nullable();
             $table->timestamps();
         });
     }
