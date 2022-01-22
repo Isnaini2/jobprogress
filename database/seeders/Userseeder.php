@@ -15,20 +15,36 @@ class Userseeder extends Seeder
      */
     public function run()
     {
-    //     User:: create ([
-    //             'name'=> 'Admin',
-    //             'role'=>'admin',
-    //             'email'=> 'pelindo@gmail.com',
-    //             'password'=> bcrypt('12345678'),
-    //             'remember_token'=> Str :: random(60)
-    //     ]);
+        // sdm
+        // tpb
+        // umum
+        // pbau
+        // it
+        // keuangan
+        // pelkap
+        // manager
+        // asisten manager
 
-    //     User:: create ([
-    //         'name'=> 'User',
-    //         'role'=>'user',
-    //         'email'=> 'user@gmail.com',
-    //         'password'=> bcrypt('12345678'),
-    //         'remember_token'=> Str :: random(60)
-    // ]);
+        $name = [
+            'User sdm', 'User tpb', 'User umum', 'User pbau', 'User it', 'User keuangan', 'User pelkap', 'User manager', 'User asisten manager'
+        ];
+
+        $email = [
+            'sdm@gmail.com', 'tpb@gmail.com', 'umum@gmail.com', 'pbau@gmail.com', 'it@gmail.com', 'keuangan@gmail.com', 'pelkap@gmail.com', 'manager@gmail.com', 'asistenmanager@gmail.com'
+        ];
+
+        $role = [
+            'sdm', 'tpb', 'umum', 'pbau', 'it', 'keuangan', 'pelkap', 'manager', 'asistenmanager'
+        ];
+
+        for ($i = 0; $i < count($name); $i++) {
+            User::create([
+                'name' => $name[$i],
+                'email' => $email[$i],
+                'role' => $role[$i],
+                'password' => bcrypt('password'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
     }
 }
