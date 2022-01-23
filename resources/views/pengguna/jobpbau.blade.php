@@ -17,8 +17,14 @@
     </section>
 
     <div class="card mb-4">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">+ Tambah</button>
+            <div class="d-flex align-items-center">
+                <label>From</label>
+                <input type="date" class="form-control" id="datefilterfrom" data-date-split-input="true">
+                <label>To</label>
+                <input type="date" class="form-control" id="datefilterto" data-date-split-input="true">
+            </div>
         </div>
 
 <div class="card-body">
@@ -30,6 +36,7 @@
             <th scope="col">User</th>
             <th scope="col">To Do</th>
             <th scope="col">Progress</th>
+            <th scope="col">Periode</th>
             <th scope="col">Done</th>
             <th scope="col">Komentar Manager</th>
             <th scope="col">Komentar Asisten Manajer</th>
@@ -44,6 +51,7 @@
             <td>{{$Pbau->User_Pbau}}</td>
             <td>{{$Pbau->To_Do_Pbau}}</td>
             <td>{{$Pbau->Progress_Pbau}}</td>
+            <td>{{date("d/m/Y", strtotime($Pbau->created_at));}}</td>
             <td>
                 <input type="checkbox" id="toggle-{{ $Pbau->id }}" data-offstyle="danger" @if($Pbau->Done_Pbau == "selesai") checked @endif>
             </td>
@@ -61,6 +69,7 @@
       </table>
     </div>
 </div>
+<button class="btn btn-success" onclick="exportData()">Export as csv</button>
 </div>
 
 <!-- Add Modal -->
@@ -238,4 +247,99 @@
         @endforeach
     })
 </script>
+
+<script>
+    function exportData() {
+      /* Get the HTML data using Element by Id */
+      var table = document.getElementById("dataTable");
+    
+      /* Declaring array variable */
+      var rows = [];
+    
+      var arrstatus = [''];
+    
+      // query selector input type checkbox
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        // looping checkbox
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                // push to array
+                arrstatus.push("Selesai");
+            } else {
+                arrstatus.push("Belum");
+            }
+        });
+        console.log(arrstatus)
+    
+    
+    
+      //iterate through rows of table
+      for (var i = 0, row; (row = table.rows[i]); i++) {
+        //   get row with style display none
+        if (row.style.display === "none") {
+          continue;
+        }
+        //rows would be accessed using the "row" variable assigned in the for loop
+        //Get each cell value/column from the row
+        column1 = row.cells[0].innerText;
+        column2 = row.cells[1].innerText;
+        column3 = row.cells[2].innerText;
+        column4 = row.cells[3].innerText;
+        column5 = row.cells[4].innerText;
+        if(i==0){
+            column6 = row.cells[5].innerText;
+        } else {
+            column6 = arrstatus[i];
+        }
+        column7 = row.cells[6].innerText;
+        column8 = row.cells[7].innerText;
+    
+        /* add a new records in the array */
+        rows.push([column1, column2, column3, column4, column5, column6, column7, column8]);
+      }
+      csvContent = "data:text/csv;charset=utf-8,";
+      /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+      rows.forEach(function (rowArray) {
+        row = rowArray.join(";");
+        csvContent += row + "\r\n";
+      });
+    
+      /* create a hidden <a> DOM node and set its download attribute */
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "Job Pbau.csv");
+      document.body.appendChild(link);
+      /* download the data file named "Stock_Price_Report.csv" */
+      link.click();
+    }
+    </script>
+    
+    
+    <script>
+        function filterRows() {
+      var from = $('#datefilterfrom').val();
+      var to = $('#datefilterto').val();
+    
+      if (!from && !to) { // no value for from and to
+        return;
+      }
+    
+      from = from || '1970-01-01'; // default from to a old date if it is not set
+      to = to || '2999-12-31';
+    
+      var dateFrom = moment(from);
+      var dateTo = moment(to);
+    
+      $('#dataTable tbody tr').each(function(i, tr) {
+        var val = $(tr).find("td:nth-child(5)").text();
+        var dateVal = moment(val, "DD/MM/YYYY");
+        var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
+        $(tr).css('display', visible);
+      });
+    }
+    
+    $('#datefilterfrom').on("change", filterRows);
+    $('#datefilterto').on("change", filterRows);
+    </script>
 @endsection
