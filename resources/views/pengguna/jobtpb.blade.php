@@ -45,7 +45,9 @@
             <td>{{$Tpb->User_Tpb}}</td>
             <td>{{$Tpb->To_Do_Tpb}}</td>
             <td>{{$Tpb->Progress_Tpb}}</td>
-            <td>{{$Tpb->Done_Tpb}}</td>
+            <td>
+                <input type="checkbox" id="toggle-{{ $Tpb->id }}" data-offstyle="danger" @if($Tpb->Done_Tpb == "selesai") checked @endif>
+            </td>
             <td>{{$Tpb->KomentarManager_Tpb}}</td>
             <td>{{$Tpb->KomentarAsistenManajer_Tpb}}</td>
             <td>
@@ -94,19 +96,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Tpb" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_Tpb" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Tpb" class="form-control" required>
+                        <input type="text" name="KomentarManager_Tpb" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Tpb" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_Tpb" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -154,19 +159,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Tpb" value="{{ $Tpb ->Done_Tpb }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $Tpb ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_Tpb" required>
+                            <option value="belum">Belum</option>
+                            <option value="selesai" >Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Tpb" value="{{ $Tpb ->KomentarManager_Tpb }}" class="form-control">
+                        <input type="text" name="KomentarManager_Tpb" value="{{ $Tpb ->KomentarManager_Tpb }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Tpb ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Tpb" value="{{ $Tpb ->KomentarAsistenManajer_Tpb }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_Tpb" value="{{ $Tpb ->KomentarAsistenManajer_Tpb }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Tpb ->id }}">
                     </div>
                 </div>
@@ -201,4 +209,34 @@
     @endforeach
     </div>
     </section>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunatpb as $Tpb)
+        $('#toggle-{{ $Tpb->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $Tpb->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-usertpb',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $Tpb->id }},
+                    'Done_Tpb': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

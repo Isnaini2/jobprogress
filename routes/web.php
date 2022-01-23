@@ -172,42 +172,54 @@ Route::get('/delete-pkmkeuangan/{id}', 'App\Http\Controllers\pelindoController@d
 // View pkm dan job
 
 Route::middleware(['auth'])->group(function () {
+    Route::middleware(['sdm'])->group(function () {
+        Route::get('/usrsdm', function () {
+            return view('pengguna.sdm');
+        });
+    });
 
-    Route::get('/usrsdm', function () {
-        return view('pengguna.sdm');
-    })->middleware('sdm');
+    Route::middleware(['umum'])->group(function () {
+        Route::get('/usrumum', function () {
+            return view('pengguna.umum');
+        });
+    });
 
-    Route::get('/usrumum', function () {
-        return view('pengguna.umum');
-    })->middleware('umum');
+    Route::middleware(['it'])->group(function () {
+        Route::get('/usrit', function () {
+            return view('pengguna.it');
+        });
+    });
 
-    Route::get('/usrit', function () {
-        return view('pengguna.it');
-    })->middleware('it');
+    Route::middleware(['pelkap'])->group(function () {
+        Route::get('/usrpelkap', function () {
+            return view('pengguna.pelkap');
+        });
+    });
 
-    Route::get('/usrpelkap', function () {
-        return view('pengguna.pelkap');
-    })->middleware('pelkap');
+    Route::middleware(['pbau'])->group(function () {
+        Route::get('/usrpbau', function () {
+            return view('pengguna.pbau');
+        });
+    });
 
-    Route::get('/usrpbau', function () {
-        return view('pengguna.pbau');
-    })->middleware('pbau');
+    Route::middleware(['tpb'])->group(function () {
+        Route::get('/usrtpb', function () {
+            return view('pengguna.tpb');
+        });
+    });
 
-    Route::get('/usrtpb', function () {
-        return view('pengguna.tpb');
-    })->middleware('tpb');
-
-    Route::get('/usrkeuangan', function () {
-        return view('pengguna.keuangan');
-    })->middleware('keuangan');
+    Route::middleware(['keuangan'])->group(function () {
+        Route::get('/usrkeuangan', function () {
+            return view('pengguna.keuangan');
+        });
+    });
 });
 
 
 
 // View PKM USER
-
-Route::get('/userpkmit', 'App\Http\Controllers\pelindoController@index');
 Route::get('/userpkmumum', 'App\Http\Controllers\pelindoController@umum');
+Route::get('/userpkmit', 'App\Http\Controllers\pelindoController@index');
 Route::get('/userpkmsdm', 'App\Http\Controllers\pelindoController@sdm');
 Route::get('/userpkmpbau', 'App\Http\Controllers\pelindoController@PBAU');
 Route::get('/userpkmtpb', 'App\Http\Controllers\pelindoController@TPB');
@@ -216,7 +228,6 @@ Route::get('/userpkmkeuangan', 'App\Http\Controllers\pelindoController@keuangan'
 
 
 //View Job USER
-
 Route::get('/userit', 'App\Http\Controllers\pelindoController@penggunait');
 Route::get('/userumum', 'App\Http\Controllers\pelindoController@penggunaumum');
 Route::get('/usersdm', 'App\Http\Controllers\pelindoController@penggunaSDM');
@@ -246,6 +257,12 @@ Route::POST('/update-userkeuangan', 'App\Http\Controllers\pelindoController@upda
 
 //update-status-userit
 Route::POST('/update-status-userit', 'App\Http\Controllers\pelindoController@updatestatuspenggunait');
+Route::POST('/update-status-userkeuangan', 'App\Http\Controllers\pelindoController@updatestatuspenggunakeuangan');
+Route::POST('/update-status-userpbau', 'App\Http\Controllers\pelindoController@updatestatuspenggunapbau');
+Route::POST('/update-status-userpelkap', 'App\Http\Controllers\pelindoController@updatestatuspenggunapelkap');
+Route::POST('/update-status-usersdm', 'App\Http\Controllers\pelindoController@updatestatuspenggunasdm');
+Route::POST('/update-status-usertpb', 'App\Http\Controllers\pelindoController@updatestatuspenggunatpb');
+Route::POST('/update-status-userumum', 'App\Http\Controllers\pelindoController@updatestatuspenggunaumum');
 
 
 //Delete-Action JOB PENGGUNA

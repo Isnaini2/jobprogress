@@ -45,7 +45,9 @@
                 <td>{{$Pelkap->User_Pelkap}}</td>
                 <td>{{$Pelkap->To_Do_Pelkap}}</td>
                 <td>{{$Pelkap->Progress_Pelkap}}</td>
-                <td>{{$Pelkap->Done_Pelkap}}</td>
+                <td>
+                    <input type="checkbox" id="toggle-{{ $Pelkap->id }}" data-offstyle="danger" @if($Pelkap->Done_Pelkap == "selesai") checked @endif>
+                </td>
                 <td>{{$Pelkap->KomentarManager_Pelkap}}</td>
                 <td>{{$Pelkap->KomentarAsistenManajer_Pelkap}}</td>
             <td>
@@ -95,19 +97,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Pelkap" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_Pelkap" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Pelkap" class="form-control" required>
+                        <input type="text" name="KomentarManager_Pelkap" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Pelkap" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_Pelkap" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -154,19 +159,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Pelkap" value="{{ $Pelkap ->Done_Pelkap }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $Pelkap ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_Pelkap" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Pelkap" value="{{ $Pelkap ->KomentarManager_Pelkap }}" class="form-control">
+                        <input type="text" name="KomentarManager_Pelkap" value="{{ $Pelkap ->KomentarManager_Pelkap }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Pelkap ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Pelkap" value="{{ $Pelkap ->KomentarAsistenManajer_Pelkap }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_Pelkap" value="{{ $Pelkap ->KomentarAsistenManajer_Pelkap }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Pelkap ->id }}">
                     </div>
                     </div>
@@ -201,4 +209,34 @@
 @endforeach
 </div>
 </section>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunapelkap as $Pelkap)
+        $('#toggle-{{ $Pelkap->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $Pelkap->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-userpelkap',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $Pelkap->id }},
+                    'Done_Pelkap': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

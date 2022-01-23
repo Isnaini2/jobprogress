@@ -19,8 +19,8 @@ class CreateJobpelkapsTable extends Migration
             $table->string('To_Do_Pelkap');
             $table->string('Progress_Pelkap');
             $table->string('Done_Pelkap');
-            $table->string('KomentarManager_Pelkap');
-            $table->string('KomentarAsistenManajer_Pelkap');
+            $table->string('KomentarManager_Pelkap')->nullable();
+            $table->string('KomentarAsistenManajer_Pelkap')->nullable();
             $table->timestamps();
         });
     }

@@ -19,8 +19,8 @@ class CreateJobpbausTable extends Migration
             $table->string('To_Do_Pbau');
             $table->string('Progress_Pbau');
             $table->string('Done_Pbau');
-            $table->string('KomentarManager_Pbau');
-            $table->string('KomentarAsistenManajer_Pbau');
+            $table->string('KomentarManager_Pbau')->nullable();
+            $table->string('KomentarAsistenManajer_Pbau')->nullable();
             $table->timestamps();
         });
     }

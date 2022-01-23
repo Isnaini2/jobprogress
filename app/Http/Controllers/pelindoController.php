@@ -89,7 +89,17 @@ class pelindoController extends Controller
             'KomentarManager_sdm' => $request->KomentarManager_sdm,
             'KomentarAsistenManajer_sdm' => $request->KomentarAsistenManajer_sdm,
         ]);
-        return redirect('/userjobsdm');
+        return redirect('/usersdm');
+    }
+    public function updatestatuspenggunasdm(Request $request)
+    {
+
+        jobsdm::where('id', $request->id)
+            ->update([
+                'Done_sdm' => $request->Done_sdm,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
     }
 
     public function updatepenggunaSDM(Request $request)
@@ -106,7 +116,7 @@ class pelindoController extends Controller
 
             ]);
 
-        return redirect('/userjobsdm');
+        return redirect('/usersdm');
     }
 
     public function deletepenggunaSDM($id)
@@ -133,7 +143,18 @@ class pelindoController extends Controller
             'KomentarManager_Umum' => $request->KomentarManager_Umum,
             'KomentarAsistenManajer_Umum' => $request->KomentarAsistenManajer_Umum,
         ]);
-        return redirect('/usermumum');
+        return redirect('/userumum');
+    }
+
+    public function updatestatuspenggunaumum(Request $request)
+    {
+
+        jobumum::where('id', $request->id)
+            ->update([
+                'Done_Umum' => $request->Done_Umum,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
     }
 
     public function updatepenggunaumum(Request $request)
@@ -150,14 +171,14 @@ class pelindoController extends Controller
 
             ]);
 
-        return redirect('/usermumum');
+        return redirect('/userumum');
     }
 
     public function deletepenggunaumum($id)
     {
         jobumum::where('id', $id)
             ->delete();
-        return redirect('/usermumum');
+        return redirect('/userumum');
     }
 
     //!--- JOB IT-Action ---!
@@ -234,6 +255,16 @@ class pelindoController extends Controller
         return redirect('/userpelkap');
     }
 
+    public function updatestatuspenggunapelkap(Request $request)
+    {
+        jobpelkap::where('id', $request->id)
+            ->update([
+                'Done_Pelkap' => $request->Done_Pelkap,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
+    }
+
     public function updatepenggunapelkap(Request $request)
     {
 
@@ -275,6 +306,16 @@ class pelindoController extends Controller
             'KomentarAsistenManajer_Pbau' => $request->KomentarAsistenManajer_Pbau,
         ]);
         return redirect('/userpbau');
+    }
+
+    public function updatestatuspenggunapbau(Request $request)
+    {
+        jobpbau::where('id', $request->id)
+            ->update([
+                'Done_Pbau' => $request->Done_Pbau,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
     }
 
     public function updatepenggunapbau(Request $request)
@@ -320,6 +361,17 @@ class pelindoController extends Controller
         return redirect('/usertpb');
     }
 
+    public function updatestatuspenggunatpb(Request $request)
+    {
+
+        jobtpb::where('id', $request->id)
+            ->update([
+                'Done_Tpb' => $request->Done_Tpb,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
+    }
+
     public function updatepenggunatpb(Request $request)
     {
 
@@ -361,6 +413,16 @@ class pelindoController extends Controller
             'KomentarAsistenManajer_Keuangan' => $request->KomentarAsistenManajer_Keuangan,
         ]);
         return redirect('/userkeuangan');
+    }
+
+    public function updatestatuspenggunakeuangan(Request $request)
+    {
+        jobkeuangan::where('id', $request->id)
+            ->update([
+                'Done_Keuangan' => $request->Done_Keuangan,
+            ]);
+
+        return response()->json(['success' => 'Status Berhasil Diubah']);
     }
 
     public function updatepenggunakeuangan(Request $request)

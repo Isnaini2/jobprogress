@@ -19,8 +19,8 @@ class CreateJobkeuangansTable extends Migration
             $table->string('To_Do_Keuangan');
             $table->string('Progress_Keuangan');
             $table->string('Done_Keuangan');
-            $table->string('KomentarManager_Keuangan');
-            $table->string('KomentarAsistenManajer_Keuangan');
+            $table->string('KomentarManager_Keuangan')->nullable();
+            $table->string('KomentarAsistenManajer_Keuangan')->nullable();
             $table->timestamps();
         });
     }

@@ -19,8 +19,8 @@ class CreateJobtpbsTable extends Migration
             $table->string('To_Do_Tpb');
             $table->string('Progress_Tpb');
             $table->string('Done_Tpb');
-            $table->string('KomentarManager_Tpb');
-            $table->string('KomentarAsistenManajer_Tpb');
+            $table->string('KomentarManager_Tpb')->nullable();
+            $table->string('KomentarAsistenManajer_Tpb')->nullable();
             $table->timestamps();
         });
     }

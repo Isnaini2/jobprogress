@@ -29,13 +29,15 @@
                     <td>{{$Keuangan->User_Keuangan}}</td>
                     <td>{{$Keuangan->To_Do_Keuangan}}</td>
                     <td>{{$Keuangan->Progress_Keuangan}}</td>
-                    <td>{{$Keuangan->Done_Keuangan}}</td>
+                    <td>
+                        <input type="checkbox" id="toggle-{{ $Keuangan->id }}" data-offstyle="danger" @if($Keuangan->Done_Keuangan == "selesai") checked @endif>
+                        {{-- {{$Keuangan->Done_Keuangan}} --}}
+                    </td>
                     <td>{{$Keuangan->KomentarManager_Keuangan}}</td>
                     <td>{{$Keuangan->KomentarAsistenManajer_Keuangan}}</td>
                     <td>
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateModal-{{$Keuangan->id}}"><i class="fas fa-edit"></i></button>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{$Keuangan->id}}"><i class="far fa-trash-alt"></i></button>
-
                     </td>
                 </tr>
 
@@ -79,19 +81,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Keuangan" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_Keuangan" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Keuangan" class="form-control" required>
+                        <input type="text" name="KomentarManager_Keuangan" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Keuangan" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_Keuangan" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -138,19 +143,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Keuangan" value="{{ $Keuangan ->Done_Keuangan }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $Keuangan ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_Keuangan" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Keuangan" value="{{ $Keuangan ->KomentarManager_Keuangan }}" class="form-control">
+                        <input type="text" name="KomentarManager_Keuangan" value="{{ $Keuangan ->KomentarManager_Keuangan }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Keuangan ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Keuangan" value="{{ $Keuangan ->KomentarAsistenManajer_Keuangan }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_Keuangan" value="{{ $Keuangan ->KomentarAsistenManajer_Keuangan }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Keuangan ->id }}">
                     </div>
                     </div>
@@ -185,4 +193,34 @@
 @endforeach
 </div>
 </section>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunakeuangan as $keuangan)
+        $('#toggle-{{ $keuangan->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $keuangan->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-userkeuangan',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $keuangan->id }},
+                    'Done_Keuangan': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

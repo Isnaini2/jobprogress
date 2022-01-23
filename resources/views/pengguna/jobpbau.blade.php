@@ -26,6 +26,7 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
+            <th scope="col">No</th>
             <th scope="col">User</th>
             <th scope="col">To Do</th>
             <th scope="col">Progress</th>
@@ -43,7 +44,9 @@
             <td>{{$Pbau->User_Pbau}}</td>
             <td>{{$Pbau->To_Do_Pbau}}</td>
             <td>{{$Pbau->Progress_Pbau}}</td>
-            <td>{{$Pbau->Done_Pbau}}</td>
+            <td>
+                <input type="checkbox" id="toggle-{{ $Pbau->id }}" data-offstyle="danger" @if($Pbau->Done_Pbau == "selesai") checked @endif>
+            </td>
             <td>{{$Pbau->KomentarManager_Pbau}}</td>
             <td>{{$Pbau->KomentarAsistenManajer_Pbau}}</td>
             <td>
@@ -93,19 +96,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Pbau" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_Pbau" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Pbau" class="form-control" required>
+                        <input type="text" name="KomentarManager_Pbau" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Pbau" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_Pbau" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -152,19 +158,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Pbau" value="{{ $Pbau ->Done_Pbau }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $Pbau ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_Pbau" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Pbau" value="{{ $Pbau ->KomentarManager_Pbau }}" class="form-control">
+                        <input type="text" name="KomentarManager_Pbau" value="{{ $Pbau ->KomentarManager_Pbau }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Pbau ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Pbau" value="{{ $Pbau ->KomentarAsistenManajer_Pbau }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_Pbau" value="{{ $Pbau ->KomentarAsistenManajer_Pbau }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $Pbau->id }}">
                     </div>
                     </div>
@@ -199,4 +208,34 @@
 @endforeach
 </div>
 </section>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunapbau as $Pbau)
+        $('#toggle-{{ $Pbau->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $Pbau->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-userpbau',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $Pbau->id }},
+                    'Done_Pbau': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

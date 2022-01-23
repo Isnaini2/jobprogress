@@ -46,7 +46,9 @@
             <td>{{$js->User_sdm}}</td>
             <td>{{$js->To_Do_sdm}}</td>
             <td>{{$js->Progress_sdm}}</td>
-            <td>{{$js->Done_sdm}}</td>
+            <td>
+                <input type="checkbox" id="toggle-{{ $js->id }}" data-offstyle="danger" @if($js->Done_sdm == "selesai") checked @endif>    
+            </td>
             <td>{{$js->KomentarManager_sdm}}</td>
             <td>{{$js->KomentarAsistenManajer_sdm}}</td>
             <td>
@@ -96,19 +98,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_sdm" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_sdm" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_sdm" class="form-control" required>
+                        <input type="text" name="KomentarManager_sdm" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_sdm" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_sdm" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -156,19 +161,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_sdm" value="{{ $js ->Done_sdm }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $js ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_sdm" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_sdm" value="{{ $js ->KomentarManager_sdm }}" class="form-control">
+                        <input type="text" name="KomentarManager_sdm" value="{{ $js ->KomentarManager_sdm }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $js ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_sdm" value="{{ $js ->KomentarAsistenManajer_sdm }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_sdm" value="{{ $js ->KomentarAsistenManajer_sdm }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $js ->id }}">
                     </div>
                 </div>
@@ -203,4 +211,33 @@
     @endforeach
     </div>
     </section>
+@endsection
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunaSDM as $js)
+        $('#toggle-{{ $js->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $js->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-usersdm',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $js->id }},
+                    'Done_sdm': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

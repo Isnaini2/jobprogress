@@ -45,7 +45,9 @@
             <td>{{$um->User_Umum}}</td>
             <td>{{$um->To_Do_Umum}}</td>
             <td>{{$um->Progress_Umum}}</td>
-            <td>{{$um->Done_Umum}}</td>
+            <td>
+                <input type="checkbox" id="toggle-{{ $um->id }}" data-offstyle="danger" @if($um->Done_Umum == "selesai") checked @endif>
+            </td>
             <td>{{$um->KomentarManager_Umum}}</td>
             <td>{{$um->KomentarAsistenManajer_Umum}}</td>
             <td>
@@ -94,19 +96,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Umum" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="Done_Umum" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Umum" class="form-control" required>
+                        <input type="text" name="KomentarManager_Umum" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Umum" class="form-control" required>
+                        <input type="text" name="KomentarAsistenManajer_Umum" class="form-control" readonly>
                         <input type="hidden" name="id" >
                     </div>
                 </div>
@@ -154,19 +159,22 @@
 
                     <div class="form-group">
                         <label>Done</label>
-                        <input type="text" name="Done_Umum" value="{{ $um ->Done_Umum }}" class="form-control">
-                        <input type="hidden" name="id" value="{{ $um ->id }}">
+                        <select class="form-select" aria-label="Default select example" name="Done_Umum" required>
+                            <option value="belum" selected>Belum</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                        <input type="hidden" name="id" >
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Manager</label>
-                        <input type="text" name="KomentarManager_Umum" value="{{ $um ->KomentarManager_Umum }}" class="form-control">
+                        <input type="text" name="KomentarManager_Umum" value="{{ $um ->KomentarManager_Umum }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $um ->id }}">
                     </div>
 
                     <div class="form-group">
                         <label>Komentar Asisten Manajer</label>
-                        <input type="text" name="KomentarAsistenManajer_Umum" value="{{ $um ->KomentarAsistenManajer_Umum }}" class="form-control">
+                        <input type="text" name="KomentarAsistenManajer_Umum" value="{{ $um ->KomentarAsistenManajer_Umum }}" class="form-control" readonly>
                         <input type="hidden" name="id" value="{{ $um ->id }}">
                     </div>
                 </div>
@@ -201,4 +209,34 @@
     @endforeach
     </div>
     </section>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        @foreach ($penggunaumum as $um)
+        $('#toggle-{{ $um->id }}').bootstrapToggle({
+            on:'Selesai',
+            off:'Belum'
+        });
+
+        $('#toggle-{{ $um->id }}').change(function() {
+            var status = $(this).prop('checked') == true ? 'selesai' : 'belum';
+            $.ajax({
+                url: '/update-status-userumum',
+                type: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': {{ $um->id }},
+                    'Done_Umum': status
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        @endforeach
+    })
+</script>
 @endsection

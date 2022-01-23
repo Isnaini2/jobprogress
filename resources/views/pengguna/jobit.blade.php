@@ -101,7 +101,6 @@
                             <option value="belum" selected>Belum</option>
                             <option value="selesai">Selesai</option>
                         </select>
-                        {{-- <input type="text" name="Done_IT" class="form-control" required> --}}
                         <input type="hidden" name="id" >
                     </div>
 

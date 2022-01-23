@@ -19,8 +19,8 @@ class CreateJobumumsTable extends Migration
             $table->string('To_Do_Umum');
             $table->string('Progress_Umum');
             $table->string('Done_Umum');
-            $table->string('KomentarManager_Umum');
-            $table->string('KomentarAsistenManajer_Umum');
+            $table->string('KomentarManager_Umum')->nullable();
+            $table->string('KomentarAsistenManajer_Umum')->nullable();
             $table->timestamps();
         });
     }
