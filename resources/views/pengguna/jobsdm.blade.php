@@ -1,5 +1,10 @@
 @extends("root.root_job")
 @section("title","JOB PROGRESS DIVISI SDM")
+@section("css")
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+@endsection
 @section("content")
 
     <section id="faq" class="faq">
@@ -31,7 +36,7 @@
 
     <div class="card-body">
     <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="datatables-reponsive" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th scope="col">No</th>
@@ -256,7 +261,7 @@
 <script>
     function exportData() {
       /* Get the HTML data using Element by Id */
-      var table = document.getElementById("dataTable");
+      var table = document.getElementById("datatables-reponsive");
     
       /* Declaring array variable */
       var rows = [];
@@ -336,7 +341,7 @@
       var dateFrom = moment(from);
       var dateTo = moment(to);
     
-      $('#dataTable tbody tr').each(function(i, tr) {
+      $('#datatables-reponsive tbody tr').each(function(i, tr) {
         var val = $(tr).find("td:nth-child(5)").text();
         var dateVal = moment(val, "DD/MM/YYYY");
         var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
@@ -347,4 +352,13 @@
     $('#datefilterfrom').on("change", filterRows);
     $('#datefilterto').on("change", filterRows);
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Datatables Responsive
+        $("#datatables-reponsive").DataTable({
+            responsive: true
+        });
+    });
+</script>
 @endsection
