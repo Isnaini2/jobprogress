@@ -25,6 +25,9 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+    
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="f91e2f1e-c01b-46e4-9457-69b35fef5cf2";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+
 
 </head>
 
@@ -58,9 +61,9 @@
     @yield("content")
 
     <!-- BACK TO TOP BUTTON  -->
-    <a href="#" class="shadow btn-primary rounded-circle back-to-top">
+    {{-- <a href="#" class="shadow btn-primary rounded-circle back-to-top">
       <i class="fas fa-chevron-up"></i>
-  </a>
+  </a> --}}
 
   <script src="assets/vendors/js/glightbox.min.js"></script>
 
