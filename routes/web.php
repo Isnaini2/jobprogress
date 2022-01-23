@@ -179,7 +179,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/usrumum', function () {
         return view('pengguna.umum');
-    })->middleware('umu');
+    })->middleware('umum');
 
     Route::get('/usrit', function () {
         return view('pengguna.it');
