@@ -274,7 +274,7 @@
       var encodedUri = encodeURI(csvContent);
       var link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "Job Keuangan.csv");
+      link.setAttribute("download", "Job Pelkap.csv");
       document.body.appendChild(link);
       /* download the data file named "Stock_Price_Report.csv" */
       link.click();
