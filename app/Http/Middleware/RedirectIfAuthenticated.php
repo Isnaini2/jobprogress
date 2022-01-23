@@ -24,7 +24,26 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect()->back();
+                $role = Auth::user()->role;
+                if ($role == 'sdm') {
+                    return redirect('/usrsdm');
+                } else if ($role == 'tpb') {
+                    return redirect('/usrtpb');
+                } else if ($role == 'umum') {
+                    return redirect('/usrumum');
+                } else if ($role == 'pbau') {
+                    return redirect('/usrpbau');
+                } else if ($role == 'it') {
+                    return redirect('/usrit');
+                } else if ($role == 'keuangan') {
+                    return redirect('/usrkeuangan');
+                } else if ($role == 'pelkap') {
+                    return redirect('/usrpelkap');
+                } else if ($role == 'manager') {
+                    return redirect('/divisi');
+                } else if ($role == 'asistenmanager') {
+                    return redirect('/divisi');
+                }
             }
         }
 
