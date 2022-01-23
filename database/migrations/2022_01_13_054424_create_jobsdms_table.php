@@ -15,10 +15,10 @@ class CreateJobsdmsTable extends Migration
     {
         Schema::create('jobsdms', function (Blueprint $table) {
             $table->id();
-            $table->string('User_sdm');
-            $table->string('To_Do_sdm');
-            $table->string('Progress_sdm');
-            $table->string('Done_sdm');
+            $table->string('User_sdm')->nullable();
+            $table->string('To_Do_sdm')->nullable();
+            $table->string('Progress_sdm')->nullable();
+            $table->string('Done_sdm')->nullable();
             $table->string('KomentarManager_sdm')->nullable();
             $table->string('KomentarAsistenManajer_sdm')->nullable();
             $table->timestamps();

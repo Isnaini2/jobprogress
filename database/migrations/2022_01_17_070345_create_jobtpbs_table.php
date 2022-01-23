@@ -15,10 +15,10 @@ class CreateJobtpbsTable extends Migration
     {
         Schema::create('jobtpbs', function (Blueprint $table) {
             $table->id();
-            $table->string('User_Tpb');
-            $table->string('To_Do_Tpb');
-            $table->string('Progress_Tpb');
-            $table->string('Done_Tpb');
+            $table->string('User_Tpb')->nullable();
+            $table->string('To_Do_Tpb')->nullable();
+            $table->string('Progress_Tpb')->nullable();
+            $table->string('Done_Tpb')->nullable();
             $table->string('KomentarManager_Tpb')->nullable();
             $table->string('KomentarAsistenManajer_Tpb')->nullable();
             $table->timestamps();

@@ -15,10 +15,10 @@ class CreateJobumumsTable extends Migration
     {
         Schema::create('jobumums', function (Blueprint $table) {
             $table->id();
-            $table->string('User_Umum');
-            $table->string('To_Do_Umum');
-            $table->string('Progress_Umum');
-            $table->string('Done_Umum');
+            $table->string('User_Umum')->nullable();
+            $table->string('To_Do_Umum')->nullable();
+            $table->string('Progress_Umum')->nullable();
+            $table->string('Done_Umum')->nullable();
             $table->string('KomentarManager_Umum')->nullable();
             $table->string('KomentarAsistenManajer_Umum')->nullable();
             $table->timestamps();

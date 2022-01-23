@@ -15,10 +15,10 @@ class CreateJobITSTable extends Migration
     {
         Schema::create('job_i_t_s', function (Blueprint $table) {
             $table->id();
-            $table->string('User_IT');
-            $table->string('To_Do_IT');
-            $table->string('Progress_IT');
-            $table->string('Done_IT');
+            $table->string('User_IT')->nullable();
+            $table->string('To_Do_IT')->nullable();
+            $table->string('Progress_IT')->nullable();
+            $table->string('Done_IT')->nullable();
             $table->string('KomentarManager_IT')->nullable();
             $table->string('KomentarAsistenManajer_IT')->nullable();
             $table->timestamps();

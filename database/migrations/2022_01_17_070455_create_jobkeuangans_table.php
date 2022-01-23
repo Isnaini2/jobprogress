@@ -15,10 +15,10 @@ class CreateJobkeuangansTable extends Migration
     {
         Schema::create('jobkeuangans', function (Blueprint $table) {
             $table->id();
-            $table->string('User_Keuangan');
-            $table->string('To_Do_Keuangan');
-            $table->string('Progress_Keuangan');
-            $table->string('Done_Keuangan');
+            $table->string('User_Keuangan')->nullable();
+            $table->string('To_Do_Keuangan')->nullable();
+            $table->string('Progress_Keuangan')->nullable();
+            $table->string('Done_Keuangan')->nullable();
             $table->string('KomentarManager_Keuangan')->nullable();
             $table->string('KomentarAsistenManajer_Keuangan')->nullable();
             $table->timestamps();

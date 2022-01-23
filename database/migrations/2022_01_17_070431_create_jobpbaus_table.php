@@ -15,10 +15,10 @@ class CreateJobpbausTable extends Migration
     {
         Schema::create('jobpbaus', function (Blueprint $table) {
             $table->id();
-            $table->string('User_Pbau');
-            $table->string('To_Do_Pbau');
-            $table->string('Progress_Pbau');
-            $table->string('Done_Pbau');
+            $table->string('User_Pbau')->nullable();
+            $table->string('To_Do_Pbau')->nullable();
+            $table->string('Progress_Pbau')->nullable();
+            $table->string('Done_Pbau')->nullable();
             $table->string('KomentarManager_Pbau')->nullable();
             $table->string('KomentarAsistenManajer_Pbau')->nullable();
             $table->timestamps();
