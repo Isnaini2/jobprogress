@@ -23,7 +23,8 @@ Route::get('/', function () {
 });
 Route::get('/login', function () {
     return view('login');
-})->name('login');
+})->name('login')->middleware('guest');
+
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
 
@@ -176,100 +177,97 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/usrsdm', function () {
             return view('pengguna.sdm');
         });
+        Route::get('/userpkmsdm', 'App\Http\Controllers\pelindoController@sdm');
+        Route::get('/usersdm', 'App\Http\Controllers\pelindoController@penggunaSDM');
+        Route::POST('/add-usersdm', 'App\Http\Controllers\pelindoController@addpenggunaSDM');
+        Route::POST('/update-usersdm', 'App\Http\Controllers\pelindoController@updatepenggunaSDM');
+        Route::POST('/update-status-usersdm', 'App\Http\Controllers\pelindoController@updatestatuspenggunasdm');
+        Route::get('/delete-usersdm/{id}', 'App\Http\Controllers\pelindoController@deletepenggunaSDM');
     });
 
     Route::middleware(['umum'])->group(function () {
         Route::get('/usrumum', function () {
             return view('pengguna.umum');
         });
+        Route::get('/userpkmumum', 'App\Http\Controllers\pelindoController@umum');
+        Route::get('/userumum', 'App\Http\Controllers\pelindoController@penggunaumum');
+        Route::POST('/add-userumum', 'App\Http\Controllers\pelindoController@addpenggunaumum');
+        Route::POST('/update-userumum', 'App\Http\Controllers\pelindoController@updatepenggunaumum');
+        Route::POST('/update-status-userumum', 'App\Http\Controllers\pelindoController@updatestatuspenggunaumum');
+        Route::get('/delete-userumum/{id}', 'App\Http\Controllers\pelindoController@deletepenggunaumum');
     });
 
     Route::middleware(['it'])->group(function () {
         Route::get('/usrit', function () {
             return view('pengguna.it');
         });
+        Route::get('/userpkmit', 'App\Http\Controllers\pelindoController@index');
+        Route::get('/userit', 'App\Http\Controllers\pelindoController@penggunait');
+        Route::POST('/add-userit', 'App\Http\Controllers\pelindoController@addpenggunait');
+        Route::POST('/update-userit', 'App\Http\Controllers\pelindoController@updatepenggunait');
+        Route::POST('/update-status-userit', 'App\Http\Controllers\pelindoController@updatestatuspenggunait');
+        Route::get('/delete-userit/{id}', 'App\Http\Controllers\pelindoController@deletepenggunait');
     });
 
     Route::middleware(['pelkap'])->group(function () {
         Route::get('/usrpelkap', function () {
             return view('pengguna.pelkap');
         });
+        Route::get('/userpkmpelkap', 'App\Http\Controllers\pelindoController@Pelkap');
+        Route::get('/userpelkap', 'App\Http\Controllers\pelindoController@penggunapelkap');
+        Route::POST('/add-userpelkap', 'App\Http\Controllers\pelindoController@addpenggunapelkap');
+        Route::POST('/update-userpelkap', 'App\Http\Controllers\pelindoController@updatepenggunapelkap');
+        Route::POST('/update-status-userpelkap', 'App\Http\Controllers\pelindoController@updatestatuspenggunapelkap');
+        Route::get('/delete-userpelkap/{id}', 'App\Http\Controllers\pelindoController@deletepenggunapelkap');
     });
 
     Route::middleware(['pbau'])->group(function () {
         Route::get('/usrpbau', function () {
             return view('pengguna.pbau');
         });
+        Route::get('/userpkmpbau', 'App\Http\Controllers\pelindoController@PBAU');
+        Route::get('/userpbau', 'App\Http\Controllers\pelindoController@penggunapbau');
+        Route::POST('/add-userpbau', 'App\Http\Controllers\pelindoController@addpenggunapbau');
+        Route::POST('/update-userpbau', 'App\Http\Controllers\pelindoController@updatepenggunapbau');
+        Route::POST('/update-status-userpbau', 'App\Http\Controllers\pelindoController@updatestatuspenggunapbau');
+        Route::get('/delete-userpbau/{id}', 'App\Http\Controllers\pelindoController@deletepenggunapbau');
     });
 
     Route::middleware(['tpb'])->group(function () {
         Route::get('/usrtpb', function () {
             return view('pengguna.tpb');
         });
+        Route::get('/userpkmtpb', 'App\Http\Controllers\pelindoController@TPB');
+        Route::get('/usertpb', 'App\Http\Controllers\pelindoController@penggunatpb');
+        Route::POST('/add-usertpb', 'App\Http\Controllers\pelindoController@addpenggunatpb');
+        Route::POST('/update-usertpb', 'App\Http\Controllers\pelindoController@updatepenggunatpb');
+        Route::POST('/update-status-usertpb', 'App\Http\Controllers\pelindoController@updatestatuspenggunatpb');
+        Route::get('/delete-usertpb/{id}', 'App\Http\Controllers\pelindoController@deletepenggunatpb');
     });
 
     Route::middleware(['keuangan'])->group(function () {
         Route::get('/usrkeuangan', function () {
             return view('pengguna.keuangan');
         });
+        Route::get('/userpkmkeuangan', 'App\Http\Controllers\pelindoController@keuangan');
+        Route::get('/userkeuangan', 'App\Http\Controllers\pelindoController@penggunakeuangan');
+        Route::POST('/add-userkeuangan', 'App\Http\Controllers\pelindoController@addpenggunakeuangan');
+        Route::POST('/update-userkeuangan', 'App\Http\Controllers\pelindoController@updatepenggunakeuangan');
+        Route::POST('/update-status-userkeuangan', 'App\Http\Controllers\pelindoController@updatestatuspenggunakeuangan');
+        Route::get('/delete-userkeuangan/{id}', 'App\Http\Controllers\pelindoController@deletepenggunakeuangan');
     });
 });
 
 
 
 // View PKM USER
-Route::get('/userpkmumum', 'App\Http\Controllers\pelindoController@umum');
-Route::get('/userpkmit', 'App\Http\Controllers\pelindoController@index');
-Route::get('/userpkmsdm', 'App\Http\Controllers\pelindoController@sdm');
-Route::get('/userpkmpbau', 'App\Http\Controllers\pelindoController@PBAU');
-Route::get('/userpkmtpb', 'App\Http\Controllers\pelindoController@TPB');
-Route::get('/userpkmpelkap', 'App\Http\Controllers\pelindoController@Pelkap');
-Route::get('/userpkmkeuangan', 'App\Http\Controllers\pelindoController@keuangan');
-
 
 //View Job USER
-Route::get('/userit', 'App\Http\Controllers\pelindoController@penggunait');
-Route::get('/userumum', 'App\Http\Controllers\pelindoController@penggunaumum');
-Route::get('/usersdm', 'App\Http\Controllers\pelindoController@penggunaSDM');
-Route::get('/userkeuangan', 'App\Http\Controllers\pelindoController@penggunakeuangan');
-Route::get('/usertpb', 'App\Http\Controllers\pelindoController@penggunatpb');
-Route::get('/userpelkap', 'App\Http\Controllers\pelindoController@penggunapelkap');
-Route::get('/userpbau', 'App\Http\Controllers\pelindoController@penggunapbau');
 
 //Add-Action JOB PENGGUNA
-Route::POST('/add-userit', 'App\Http\Controllers\pelindoController@addpenggunait');
-Route::POST('/add-userumum', 'App\Http\Controllers\pelindoController@addpenggunaumum');
-Route::POST('/add-usersdm', 'App\Http\Controllers\pelindoController@addpenggunaSDM');
-Route::POST('/add-userpbau', 'App\Http\Controllers\pelindoController@addpenggunapbau');
-Route::POST('/add-usertpb', 'App\Http\Controllers\pelindoController@addpenggunatpb');
-Route::POST('/add-userpelkap', 'App\Http\Controllers\pelindoController@addpenggunapelkap');
-Route::POST('/add-userkeuangan', 'App\Http\Controllers\pelindoController@addpenggunakeuangan');
-
 
 //Update-Action JOB PENGGUNA
-Route::POST('/update-userit', 'App\Http\Controllers\pelindoController@updatepenggunait');
-Route::POST('/update-userumum', 'App\Http\Controllers\pelindoController@updatepenggunaumum');
-Route::POST('/update-usersdm', 'App\Http\Controllers\pelindoController@updatepenggunaSDM');
-Route::POST('/update-userpbau', 'App\Http\Controllers\pelindoController@updatepenggunapbau');
-Route::POST('/update-usertpb', 'App\Http\Controllers\pelindoController@updatepenggunatpb');
-Route::POST('/update-userpelkap', 'App\Http\Controllers\pelindoController@updatepenggunapelkap');
-Route::POST('/update-userkeuangan', 'App\Http\Controllers\pelindoController@updatepenggunakeuangan');
 
 //update-status-userit
-Route::POST('/update-status-userit', 'App\Http\Controllers\pelindoController@updatestatuspenggunait');
-Route::POST('/update-status-userkeuangan', 'App\Http\Controllers\pelindoController@updatestatuspenggunakeuangan');
-Route::POST('/update-status-userpbau', 'App\Http\Controllers\pelindoController@updatestatuspenggunapbau');
-Route::POST('/update-status-userpelkap', 'App\Http\Controllers\pelindoController@updatestatuspenggunapelkap');
-Route::POST('/update-status-usersdm', 'App\Http\Controllers\pelindoController@updatestatuspenggunasdm');
-Route::POST('/update-status-usertpb', 'App\Http\Controllers\pelindoController@updatestatuspenggunatpb');
-Route::POST('/update-status-userumum', 'App\Http\Controllers\pelindoController@updatestatuspenggunaumum');
-
 
 //Delete-Action JOB PENGGUNA
-Route::get('/delete-userit/{id}', 'App\Http\Controllers\pelindoController@deletepenggunait');
-Route::get('/delete-userumum/{id}', 'App\Http\Controllers\pelindoController@deletepenggunaumum');
-Route::get('/delete-usersdm/{id}', 'App\Http\Controllers\pelindoController@deletepenggunaSDM');
-Route::get('/delete-userpbau/{id}', 'App\Http\Controllers\pelindoController@deletepenggunapbau');
-Route::get('/delete-usertpb/{id}', 'App\Http\Controllers\pelindoController@deletepenggunatpb');
-Route::get('/delete-userpelkap/{id}', 'App\Http\Controllers\pelindoController@deletepenggunapelkap');
-Route::get('/delete-userkeuangan/{id}', 'App\Http\Controllers\pelindoController@deletepenggunakeuangan');
